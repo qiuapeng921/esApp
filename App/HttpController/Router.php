@@ -22,7 +22,7 @@ class Router extends AbstractRouter
     public function initialize(RouteCollector $route)
     {
         $route->get('/', '/Index/index');
-
+        $route->get('/socket', '/Socket/index');
         // 开启全局路由(只有定义的地址才可以访问)
         $this->setGlobalMode(true);
         // 空方法

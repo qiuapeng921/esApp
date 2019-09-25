@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0a517e8b00930b8e822c85c20550908",
+    "content-hash": "af67d358467b23c58c07980fa5fce3b2",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -755,6 +755,60 @@
                 "swoole"
             ],
             "time": "2019-06-21T14:37:06+00:00"
+        },
+        {
+            "name": "easyswoole/socket",
+            "version": "1.1.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/easy-swoole/socket.git",
+                "reference": "d6100a3f7c35c256f67cb9b9c539032568c8aa83"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/easy-swoole/socket/zipball/d6100a3f7c35c256f67cb9b9c539032568c8aa83",
+                "reference": "d6100a3f7c35c256f67cb9b9c539032568c8aa83",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "easyswoole/spl": "^1.0",
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "easyswoole/phpunit": "^1.0",
+                "easyswoole/swoole-ide-helper": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EasySwoole\\Socket\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "YF",
+                    "email": "291323003@qq.com"
+                }
+            ],
+            "description": "An efficient swoole framework",
+            "homepage": "https://www.easyswoole.com/",
+            "keywords": [
+                "async",
+                "easyswoole",
+                "framework",
+                "swoole"
+            ],
+            "time": "2019-05-30T02:54:45+00:00"
         },
         {
             "name": "easyswoole/spl",
