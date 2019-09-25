@@ -33,7 +33,6 @@ class SocketParser implements ParserInterface
      */
     public function decode($raw, $client): ?Caller
     {
-        dd($client);
         // 解析 客户端原始消息
         $data = json_decode($raw, true);
         if (!is_array($data)) {
