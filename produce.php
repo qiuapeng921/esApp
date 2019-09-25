@@ -36,6 +36,6 @@ return [
     'PHAR' => [
         'EXCLUDE' => ['.idea', 'Log', 'Temp', 'easyswoole', 'easyswoole.install']
     ],
-    'APP_HOST' => "https://api.rd029.com/",
+    'APP_HOST' => "https://api.phpswoole.com/",
     'DEBUG' => false
 ];
