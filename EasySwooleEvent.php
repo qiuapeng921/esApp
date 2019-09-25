@@ -23,7 +23,6 @@ use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\MysqliPool\MysqlPoolException;
 use EasySwoole\Socket\Dispatcher;
-use EasySwoole\Socket\Exception\Exception;
 use EasySwoole\Template\Render;
 use Throwable;
 
@@ -77,15 +76,11 @@ class EasySwooleEvent implements Event
             $dispatch->dispatch($server, $frame->data, $frame);
         });
 
-        /**
-         * TODO
-         * mysql redis 预加载
-         */
+        // TODO mysql redis 预加载
         $register->add($register::onWorkerStart, function (\swoole_server $server, int $workerId) {
             if ($server->taskworker == false) {
-                //每个worker进程都预创建连接
-                PoolManager::getInstance()->getPool(MysqlPool::class)->preLoad(ESConfig::getInstance()->getConf('MYSQL.POOL_MAX_NUM'));//最小创建数量
-                PoolManager::getInstance()->getPool(RedisPool::class)->preLoad(ESConfig::getInstance()->getConf('REDIS.POOL_MAX_NUM'));//最小创建数量
+                PoolManager::getInstance()->getPool(MysqlPool::class)->preLoad(ESConfig::getInstance()->getConf('MYSQL.POOL_MAX_NUM'));
+                PoolManager::getInstance()->getPool(RedisPool::class)->preLoad(ESConfig::getInstance()->getConf('REDIS.POOL_MAX_NUM'));
             }
         });
         // TODO 模板
