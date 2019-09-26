@@ -10,11 +10,14 @@
         </ul>
     </div>
     <div>
+        <select id="classes">
+            <option value="index">index</option>
+            <option value="user">user</option>
+        </select>
         <select id="action">
             <option value="who">who</option>
             <option value="hello">hello</option>
             <option value="delay">delay</option>
-            <option value="404">404</option>
         </select>
         <input type="text" id="says">
         <button onclick="say()">发送</button>
@@ -43,10 +46,12 @@
         $("#line").append("<li>"+data+"</li>");
     }
     function say() {
-        var content = $("#says").val();
+        var classes = $("#classes").val();
         var action = $("#action").val();
+        var content = $("#says").val();
         $("#says").val('');
         websocket.send(JSON.stringify({
+            class:classes,
             action:action,
             content:content
         }));
