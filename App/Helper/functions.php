@@ -20,9 +20,13 @@ if (!function_exists('dd')) {
 }
 
 if (!function_exists("config")) {
+    /**
+     * @param $key
+     * @return array|mixed|null
+     */
     function config($key)
     {
-        Config::getInstance()->getConf($key);
+        return Config::getInstance()->getConf($key);
     }
 }
 

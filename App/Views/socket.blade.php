@@ -1,23 +1,18 @@
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 <body>
 <div>
     <div>
         <p>info below</p>
-        <ul  id="line">
+        <ul id="line">
         </ul>
     </div>
     <div>
-        <select id="classes">
-            <option value="index">index</option>
-            <option value="user">user</option>
-        </select>
         <select id="action">
-            <option value="who">who</option>
             <option value="hello">hello</option>
-            <option value="delay">delay</option>
+            <option value="sendToAll">全体</option>
         </select>
         <input type="text" id="says">
         <button onclick="say()">发送</button>
@@ -26,35 +21,37 @@
 </body>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
-    var wsServer = 'ws://dev.phpswoole.com';
-    var websocket = new WebSocket(wsServer);
-    window.onload = function () {
-        websocket.onopen = function (evt) {
-            addLine("Connected to WebSocket server.");
-        };
-        websocket.onclose = function (evt) {
-            addLine("Disconnected");
-        };
-        websocket.onmessage = function (evt) {
-            addLine('Retrieved data from server: ' + evt.data);
-        };
-        websocket.onerror = function (evt, e) {
-            addLine('Error occured: ' + evt.data);
-        };
+    let wsServer = 'ws://127.0.0.1:9501/socket';
+    let websocket = new WebSocket(wsServer);
+    websocket.onopen = function (evt) {
+        addLine("初始化");
     };
+    websocket.onclose = function (evt) {
+        addLine("链接关闭");
+    };
+    websocket.onmessage = function (evt) {
+        addLine('消息: ' + evt.data);
+    };
+    websocket.onerror = function (evt, e) {
+        addLine('连接失败: ' + evt.data);
+    };
+
     function addLine(data) {
-        $("#line").append("<li>"+data+"</li>");
+        $("#line").append("<li>" + data + "</li>");
     }
+
     function say() {
-        var classes = $("#classes").val();
-        var action = $("#action").val();
-        var content = $("#says").val();
+        let action = $("#action").val();
+        let content = $("#says").val();
         $("#says").val('');
         websocket.send(JSON.stringify({
-            class:classes,
-            action:action,
-            content:content
+            action: action,
+            content: content
         }));
+    }
+
+    function close() {
+        websocket.onclose
     }
 </script>
 </html>
