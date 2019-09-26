@@ -2,8 +2,6 @@
 
 namespace App\HttpController;
 
-use App\Router\JuiceRoute;
-use App\Router\SmartRoute;
 use EasySwoole\Http\AbstractInterface\AbstractRouter;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
@@ -22,7 +20,7 @@ class Router extends AbstractRouter
     public function initialize(RouteCollector $route)
     {
         $route->get('/', '/Index/index');
-        $route->get('/socket', '/Socket/index');
+        $route->get('/socket', '/Index/socket');
         // 开启全局路由(只有定义的地址才可以访问)
         $this->setGlobalMode(true);
         // 空方法
