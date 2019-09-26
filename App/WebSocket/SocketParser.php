@@ -14,13 +14,7 @@ use EasySwoole\Socket\Bean\Caller;
 use EasySwoole\Socket\Bean\Response;
 
 /**
- * Class SocketParser
- *
- * 此类是自定义的 websocket 消息解析器
- * 此处使用的设计是使用 json string 作为消息格式
- * 当客户端消息到达服务端时，会调用 decode 方法进行消息解析
- * 会将 websocket 消息 转成具体的 Class -> Action 调用 并且将参数注入
- *
+ * 消息解析器
  * @package App\WebSocket
  */
 class SocketParser implements ParserInterface
@@ -33,7 +27,6 @@ class SocketParser implements ParserInterface
      */
     public function decode($raw, $client): ?Caller
     {
-        dd($raw);
         // 解析 客户端原始消息
         $data = json_decode($raw, true);
         if (!is_array($data)) {
@@ -66,10 +59,6 @@ class SocketParser implements ParserInterface
      */
     public function encode(Response $response, $client): ?string
     {
-        /**
-         * 这里返回响应给客户端的信息
-         * 这里应当只做统一的encode操作 具体的状态等应当由 Controller处理
-         */
         return $response->getMessage();
     }
 }
