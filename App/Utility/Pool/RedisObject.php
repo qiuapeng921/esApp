@@ -2,8 +2,7 @@
 
 namespace App\Utility\Pool;
 
-
-use Co\Redis;
+use Swoole\Coroutine\Redis;
 use EasySwoole\Component\Pool\PoolObjectInterface;
 
 class RedisObject extends Redis implements PoolObjectInterface

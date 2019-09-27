@@ -14,8 +14,6 @@ class Index extends Common
      */
     public function index()
     {
-        $user = $this->getRedis()->sMembers('fd');
-        dd($user);
         return $this->view('index', ['demo' => '欢迎使用 EsApp']);
     }
 
