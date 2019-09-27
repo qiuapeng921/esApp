@@ -28,6 +28,11 @@ class Auth extends Common
     {
         $request = $this->request()->getParsedBody();
         $response = (new UserRepository())->handleLogin($request);
+        if ($response['code'] == 200) {
+            $this->response()->setCookie('token', $response['data']['token'], 7);
+            $this->response()->setCookie('user_id', $response['data']['info']['user_id'], 7);
+            $this->response()->setCookie('account', $response['data']['token']['account'], 7);
+        }
         return $this->responseJson($response);
     }
 

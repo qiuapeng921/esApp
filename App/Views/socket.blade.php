@@ -75,7 +75,7 @@
 
 <script>
     let token = $("#token").val();
-    let wsServer = 'ws://dev.phpswoole.com/socket?token=' + token;
+    let wsServer = 'ws://127.0.0.1:9501/socket?token=' + token;
     let websocket = new WebSocket(wsServer);
     websocket.onopen = function (evt) {
         addLine(new Date().toUTCString());
@@ -89,7 +89,6 @@
         if (evt.data != 'done') {
             addLine(evt.data);
         }
-        console.log(evt.data)
     };
     websocket.onerror = function (evt, e) {
         addLine('连接失败: ' + evt.data);

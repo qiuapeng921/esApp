@@ -28,20 +28,25 @@ class UserRepository extends BaseRepository
         if (!$account) {
             return $this->fail(null, "账号不能为空");
         }
+        $aaa = makeHash($data['password']);
         $userInfo = (new UserModel())->getUserByAccount($account);
         if (!$userInfo) {
             return $this->fail(null, "账号不存在");
         }
-        if ($userInfo['lock']) {
+        if (!$userInfo['status']) {
             return $this->fail(null, "该账户已被锁定");
         }
         if (!validateHash($data['password'], $userInfo['password'])) {
             return $this->fail(null, "用户名密码不匹配");
         }
         unset($userInfo['password']);
-        $result = (new JWT())->jwtEncode($userInfo);
-        $this->getRedis()->set(sprintf('userToken_%s', $userInfo['user_id']), $result);
+        $token = (new JWT())->jwtEncode($userInfo);
+        $this->getRedis()->set(sprintf('userToken_%s', $userInfo['user_id']), $token);
         $this->getRedis()->set(sprintf('userInfo_%s', $userInfo['user_id']), json_encode($userInfo));
+        $result = [
+            'info' => $userInfo,
+            'token' => $token
+        ];
         return $this->success($result);
     }
 

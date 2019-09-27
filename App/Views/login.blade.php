@@ -95,7 +95,7 @@
                     return false;
                 } else {
                     layer.alert("登陆成功", {icon: 1}, function () {
-                        window.location.href = '/socket?token=' + result.data;
+                        window.location.href = '/socket?token=' + result.data.token;
                     });
                 }
             }

@@ -52,19 +52,17 @@ class WebSocketEvent
             // 将userId绑定的fd存入共享内存
             setContext(sprintf("user_%s", $this->userInfo->user_id), $fd);
             $redis = $this->getRedis();
-            $redis->sAdd('fd', json_encode($this->userInfo));
-            $user = $server->getClientList(0);
+            $redis->sAdd('onlineUser', json_encode($this->userInfo));
+            $user = $redis->sMembers('onlineUser');
+            dd($user);
             // 向在线用户推送在线人数
-            foreach ($user as $key => $item) {
-                if ($fd == $item) {
-                    $server->push($item, '欢迎加入');
-                } else {
-                    if (!$server->exist($item)) {
-                        $redis->srem('fd', $item);
-                    }
-                }
-                $server->push($item, (string)$redis->sMembers('fd'));
-            }
+            $server->push($fd, '欢迎加入');
+//            foreach ($user as $key => $item) {
+//                if (!$server->exist($item)) {
+//                    $redis->srem('fd', $item);
+//                }
+//                $server->push($item, (string)$redis->sMembers('fd'));
+//            }
             return true;
         }
 
@@ -104,7 +102,7 @@ class WebSocketEvent
      */
     public function onClose(swoole_server $server, int $fd, int $reactorId)
     {
-        $this->getRedis()->srem('fd', $fd);
+//        $this->getRedis()->srem('onlineUser', $fd);
         $info = $server->getClientInfo($fd);
         if ($info && $info['websocket_status'] === WEBSOCKET_STATUS_FRAME) {
             if ($reactorId <= 0) {

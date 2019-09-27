@@ -10,7 +10,6 @@ namespace EasySwoole\EasySwoole;
 
 use App\Exception\ExceptionHandler;
 use App\Process\HotReload;
-use App\Process\OnlineUser;
 use App\Utility\Blade;
 use App\Utility\Pool\MysqlPool;
 use App\Utility\Pool\RedisPool;
