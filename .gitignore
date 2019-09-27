@@ -1,4 +1,4 @@
 .idea/
-vendor/
-!.gitignore
+.env
 config.php
+vendor/

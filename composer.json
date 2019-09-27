@@ -11,7 +11,8 @@
     "ext-libxml": "*",
     "ext-simplexml": "*",
     "easyswoole/mysqli-pool": "^1.0",
-    "easyswoole/socket": "^1.1"
+    "easyswoole/socket": "^1.1",
+    "vlucas/phpdotenv": "^3.6"
   },
   "autoload": {
     "files": [

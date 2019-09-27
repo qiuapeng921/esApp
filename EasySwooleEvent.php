@@ -15,6 +15,7 @@ use App\Utility\Pool\MysqlPool;
 use App\Utility\Pool\RedisPool;
 use App\WebSocket\SocketParser;
 use App\WebSocket\WebSocketEvent;
+use Dotenv\Dotenv;
 use EasySwoole\Component\Di;
 use EasySwoole\Http\Message\Status;
 use EasySwoole\Http\Request;
@@ -96,7 +97,7 @@ class EasySwooleEvent implements Event
             $websocketEvent->onOpen($server, $request);
         });
         // 给server 注册相关事件 在 WebSocket 模式下  on message 事件必须注册 并且交给 Dispatcher 对象处理
-        $register->set(EventRegister::onMessage, function (\swoole_websocket_server $server, \swoole_websocket_frame $frame) use ($dispatch,$websocketEvent) {
+        $register->set(EventRegister::onMessage, function (\swoole_websocket_server $server, \swoole_websocket_frame $frame) use ($dispatch, $websocketEvent) {
             $dispatch->dispatch($server, $frame->data, $frame);
         });
         // TODO 自定义关闭事件
@@ -140,6 +141,9 @@ class EasySwooleEvent implements Event
      */
     public static function loadConf($ConfPath)
     {
+        if (file_exists(EASYSWOOLE_ROOT . '/.env')) {
+            Dotenv::create([EASYSWOOLE_ROOT])->load();
+        }
         $conf = Config::getInstance();
         $data = require_once $ConfPath;
         foreach ($data as $key => $val) {

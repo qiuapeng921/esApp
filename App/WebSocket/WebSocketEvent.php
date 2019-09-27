@@ -27,7 +27,7 @@ class WebSocketEvent
      */
     public function onOpen(swoole_websocket_server $server, swoole_http_request $request)
     {
-        $fd = $request->fd;;
+        $fd = $request->fd;
         $this->getRedis()->sAdd('fd', $fd);
         $user = $this->getRedis()->sMembers('fd');
         foreach ($user as $key => $item) {

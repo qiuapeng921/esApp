@@ -21,7 +21,7 @@
 </body>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
-    let wsServer = 'ws://127.0.0.1:9501/socket';
+    let wsServer = 'ws://dev.phpswoole.com/socket';
     let websocket = new WebSocket(wsServer);
     websocket.onopen = function (evt) {
         addLine("初始化");

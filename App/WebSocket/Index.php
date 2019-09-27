@@ -34,7 +34,6 @@ class Index extends Controller
      */
     public function sendToAll()
     {
-        $this->response()->setMessage('主动推送');
         $user = $this->getRedis()->sMembers('fd');
         $args = $this->caller()->getArgs();
         TaskManager::async(function () use ($user, $args) {
