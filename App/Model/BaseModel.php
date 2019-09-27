@@ -3,9 +3,9 @@
 namespace App\Model;
 
 use App\Traits\MysqlTrait;
-use App\Utility\Logger;
 use App\Utility\Pool\MysqlObject;
 use EasySwoole\EasySwoole\Config;
+use EasySwoole\EasySwoole\Logger;
 use EasySwoole\MysqliPool\Connection;
 use Throwable;
 
@@ -21,6 +21,9 @@ class BaseModel
      * @var MysqlObject
      */
     private $mysql;
+    /**
+     * @var bool
+     */
     private $tractionDb;
 
     /**
@@ -42,14 +45,14 @@ class BaseModel
      * @param null $mysqlPool
      * @return MysqlObject|Connection|null
      */
-    public function mysql($mysqlPool = null)
+    protected function mysql($mysqlPool = null)
     {
         // 事务对象
         if ($this->tractionDb) {
             return $this->mysql;
         }
 
-        // 自定义池
+        // 自定义连接池
         if ($mysqlPool) {
             $this->mysql = $this->getMysqlPool($mysqlPool);
         }
@@ -62,7 +65,7 @@ class BaseModel
     public function __destruct()
     {
         if (Config::getInstance()->getConf('DEBUG')) {
-            Logger::getInstance()->console($this->mysql->getLastQuery(), 2, 'INFO');
+            Logger::getInstance()->console($this->mysql->getLastQuery(), 3, 'INFO');
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\HttpController;
 
+use App\Router\ApiRouter;
 use EasySwoole\Http\AbstractInterface\AbstractRouter;
 use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
@@ -20,7 +21,14 @@ class Router extends AbstractRouter
     public function initialize(RouteCollector $route)
     {
         $route->get('/', '/Index/index');
+        $route->get('/login', 'Index/login');
+        $route->get('/register', 'Index/register');
         $route->get('/socket', '/Index/socket');
+
+        $route->addGroup('/api/', function (RouteCollector $route) {
+            (new ApiRouter())->setRouter($route);
+        });
+
         // 开启全局路由(只有定义的地址才可以访问)
         $this->setGlobalMode(true);
         // 空方法

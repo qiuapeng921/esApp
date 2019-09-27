@@ -10,6 +10,7 @@ namespace EasySwoole\EasySwoole;
 
 use App\Exception\ExceptionHandler;
 use App\Process\HotReload;
+use App\Process\OnlineUser;
 use App\Utility\Blade;
 use App\Utility\Pool\MysqlPool;
 use App\Utility\Pool\RedisPool;
@@ -93,8 +94,8 @@ class EasySwooleEvent implements Event
 
         $websocketEvent = new WebSocketEvent();
         // TODO 自定义连接
-        $register->set(EventRegister::onOpen, function (\swoole_websocket_server $server, \swoole_http_request $request) use ($websocketEvent) {
-            $websocketEvent->onOpen($server, $request);
+        $register->set(EventRegister::onHandShake, function (\swoole_http_request $request, \swoole_http_response $response) use ($websocketEvent) {
+            $websocketEvent->onHandShake($request, $response);
         });
         // 给server 注册相关事件 在 WebSocket 模式下  on message 事件必须注册 并且交给 Dispatcher 对象处理
         $register->set(EventRegister::onMessage, function (\swoole_websocket_server $server, \swoole_websocket_frame $frame) use ($dispatch, $websocketEvent) {
@@ -145,6 +146,7 @@ class EasySwooleEvent implements Event
             Dotenv::create([EASYSWOOLE_ROOT])->load();
         }
         $conf = Config::getInstance();
+        $conf->loadFile("App/Helper/functions.php");
         $data = require_once $ConfPath;
         foreach ($data as $key => $val) {
             $conf->setConf((string)$key, (array)$val);

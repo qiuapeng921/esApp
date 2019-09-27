@@ -62,6 +62,33 @@ if (!function_exists('env')) {
     }
 }
 
+
+if (!function_exists('makeHash')) {
+    /**
+     * 生成加密字符串
+     * @param $string
+     * @return false|string
+     */
+    function makeHash($string)
+    {
+        return \EasySwoole\Utility\Hash::makePasswordHash($string);
+    }
+}
+
+
+if (!function_exists('validateHash')) {
+    /**
+     * 验证加密字符串
+     * @param $string
+     * @param $hashString
+     * @return bool
+     */
+    function validateHash($string, $hashString)
+    {
+        return \EasySwoole\Utility\Hash::validatePasswordHash($string, $hashString);
+    }
+}
+
 if (!function_exists('array_map_recursive')) {
     /**
      * 输入数据过滤
@@ -138,7 +165,7 @@ if (!function_exists('array_object')) {
         return $obj;
     }
 }
-if (!function_exists('set_context')) {
+if (!function_exists('setContext')) {
     /**
      * 设置上下文
      * @param $key
@@ -146,33 +173,33 @@ if (!function_exists('set_context')) {
      * @param int $cid
      * @throws ModifyError
      */
-    function set_context($key, $value, $cid = 1)
+    function setContext($key, $value, $cid = 1)
     {
         ContextManager::getInstance()->set($key, $value, $cid);
     }
 }
 
-if (!function_exists('get_context')) {
+if (!function_exists('getContext')) {
     /**
      * 获取上下文
      * @param $key
      * @param int $cid
      * @return mixed|null
      */
-    function get_context($key, $cid = 1)
+    function getContext($key, $cid = 1)
     {
         return ContextManager::getInstance()->get($key, $cid);
     }
 }
 
 
-if (!function_exists('del_context')) {
+if (!function_exists('delContext')) {
 
     /**
      * 删除上下文
      * @param int $cid
      */
-    function del_context($cid = 1)
+    function delContext($cid = 1)
     {
         ContextManager::getInstance()->destroy($cid);
     }
