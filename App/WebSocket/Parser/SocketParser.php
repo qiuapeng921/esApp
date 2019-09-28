@@ -42,14 +42,15 @@ class SocketParser implements ParserInterface
             // 设置被调用的方法
             $caller->setAction($data['action'] ?? 'index');
             // 检查是否存在args
+            $args = [];
             if (!empty($data['content'])) {
                 // content 无法解析为array 时 返回 content => string 格式
-                $args = is_array($data['content']) ? $data['content'] : ['content' => $data['content']];
+                $content = $data['content'];
+                $args = is_array($content) ? $content : ['content' => $content];
             }
-
             // 设置被调用的Args
-            $caller->setArgs($args ?? []);
-        }else{
+            $caller->setArgs($args);
+        } else {
             $caller->setControllerClass("\\App\\WebSocket\\Controller\\Index");
             $caller->setAction('heartbeat');
         }

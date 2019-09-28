@@ -1,31 +1,21 @@
 @extends('layouts.main')
 @section('content')
-    <div class="jumbotron" style="height: 500px;overflow:auto;">
-        <div class="container">
-            <ul id="message" style="font-size: 14px;">
-
-            </ul>
-            <div class="media">
-                <div class="media-left">
-                    <img src="https://static.runoob.com/images/mix/img_avatar.png" class="media-object"
-                         style="width:40px" alt="">
-                </div>
-                <div class="media-body">
-                    <h6 class="media-heading">admin</h6>
-                    <p>测试</p>
-                </div>
-            </div>
-            <hr>
+    <div class="col-xs-12 col-sm-9">
+        <div class="jumbotron" style="height: 500px;overflow: auto">
+            <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some
+                responsive-range viewport sizes to see it in action.</p>
+            <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some
+                responsive-range viewport sizes to see it in action.</p>
+            <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some
+                responsive-range viewport sizes to see it in action.</p>
         </div>
-    </div>
-
-    <div class="content">
-        <div class="form-group">
-            <label for="name"></label>
-            <label>消息框
-                <textarea class="form-control" id="says" rows="6" style="width: 1140px"></textarea>
-                <button type="button" class="btn btn-success" style="margin-top: 20px;" onclick="say()">发送</button>
-            </label>
+        <div class="row" style="width: 75%">
+            <div class="col-xs-6 col-lg-4">
+                <label>
+                    <textarea class="form-control input-lg" style="width: 500px;" rows="3" id="content"></textarea>
+                </label>
+                <button type="button" class="btn btn-success media-right" onclick="say('send')">发送</button>
+            </div>
         </div>
     </div>
 @endsection

@@ -32,14 +32,6 @@ class User extends Common
         return $this->view('register');
     }
 
-    /**
-     * 默认的 websocket 测试页
-     */
-    public function socket()
-    {
-        $id = $this->request()->getQueryParam('id') ?? 0;
-        return $this->view('user.socket', ['id' => $id]);
-    }
 
     /**
      * 我的好友
@@ -50,6 +42,18 @@ class User extends Common
     {
         $result = (new UserFriendRepository())->getFriendByUserId(1);
         return $this->view('user.friend', ['result' => $result['data']]);
+    }
+
+    /**
+     * 聊天界面
+     * @return string|null
+     * @throws Throwable
+     */
+    public function message()
+    {
+        $userId = $this->request()->getQueryParam('id');
+        $result = (new GroupModel())->getGroupByUserId($userId);
+        return $this->view('user.message', ['result' => $result]);
     }
 
     /**
@@ -64,22 +68,11 @@ class User extends Common
     }
 
     /**
-     *
+     * 群组聊天
      */
     public function groupMessage()
     {
         $groupId = $this->request()->getQueryParam('group_id');
-    }
 
-    /**
-     * 聊天界面
-     * @return string|null
-     * @throws Throwable
-     */
-    public function message()
-    {
-        $userId = $this->request()->getQueryParam('id');
-        $result = (new GroupModel())->getGroupByUserId($userId);
-        return $this->view('user.message', ['result' => $result]);
     }
 }

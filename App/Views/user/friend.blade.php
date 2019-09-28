@@ -4,7 +4,7 @@
     <ul class="list-group">
         @foreach($result as $key=>$item)
             <li class="list-group-item">
-                <a href="/message?id={{$item['user_id']}}" target="_blank">
+                <a href="/message?type=send&id={{$item['user_id']}}" target="_blank">
                     <img class="img-circle" src="{{$item['image_url']}}" alt="{{$item['image_url']}}"
                          style="float: left;width: 60px;height: 60px;">
                     <h3>{{$item['nick_name']}}</h3>

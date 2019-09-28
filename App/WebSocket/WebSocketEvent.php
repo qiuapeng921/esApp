@@ -3,20 +3,15 @@
 namespace App\WebSocket;
 
 use App\Model\UserModel;
-use App\Task\BroadcastTask;
-use App\Utility\JWT;
 
-use EasySwoole\Component\Context\Exception\ModifyError;
+use App\Task\PushMessageTask;
 use EasySwoole\Component\Pool\Exception\PoolEmpty;
 use EasySwoole\Component\Pool\Exception\PoolException;
-use EasySwoole\EasySwoole\ServerManager;
+
 use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
 use EasySwoole\Utility\Random;
-
 use swoole_http_request;
-use swoole_http_response;
 use swoole_server;
-use swoole_websocket_frame;
 use swoole_websocket_server;
 use Throwable;
 
@@ -44,16 +39,17 @@ class WebSocketEvent
             if ($user) {
                 // 将fd和用户id绑定
                 $server->bind($fd, $params['id']);
-                // 设置fd关联的userId
-                Bind::getInstance()->setFdUserId($fd, $params['id']);
                 //设置userId关联的fd
                 Bind::getInstance()->setUserIdFd($params['id'], $fd);
-                // 添加用户信息集合中
-                OnlineUser::getInstance()->addFdUserInfo($fd, $user);
             }
+        } else {
+            $user = ['user_id' => Random::number(), 'nick_name' => Random::character()];
         }
+        // 添加用户信息集合中
+        OnlineUser::getInstance()->addFdUserInfo($fd, $user);
         // 插入在线集合
         OnlineUser::getInstance()->addOnlineUser($fd);
+        TaskManager::async(new PushMessageTask(['type' => 'join', 'data' => $user['nick_name'], "fromFd" => $fd]));
     }
 
     /**
@@ -70,15 +66,15 @@ class WebSocketEvent
         if (isset($info['websocket_status']) && $info['websocket_status'] !== 0) {
             // 从集合中删除当前已退出的fd
             OnlineUser::getInstance()->deleteOnlineUser($fd);
-            // 刪除fd用戶信息
-            OnlineUser::getInstance()->deleteFdUserInfo($fd);
+
             // 通过fd获取fd绑定的用户信息
             $user = OnlineUser::getInstance()->getUserByFd($fd);
             $user = json_decode($user, true);
             // 删除fd关联的userId
             Bind::getInstance()->deleteUserIdFd($user['user_id']);
-            // 删除userId关联的fd
-            Bind::getInstance()->deleteFdUserId($fd);
+            // 刪除fd用戶信息
+            OnlineUser::getInstance()->deleteFdUserInfo($fd);
+            TaskManager::async(new PushMessageTask(['type' => 'leave', 'data' => $user['nick_name'], "fromFd" => $fd]));
         }
     }
 }

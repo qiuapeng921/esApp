@@ -1,10 +1,20 @@
-<nav class="navbar navbar-fixed navbar-inverse" role="navigation">
-    <div class="container-fluid">
-        <div>
+<nav class="navbar navbar-fixed-top navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">在线聊天系统</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/hall">大厅</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/socket" target="_blank">聊天室</a></li>
-                <li><a href="/friend" target="_blank">通讯录</a></li>
-                <li><a href="/group" target="_blank">群组</a></li>
+                <li><a href="/room">聊天</a></li>
+                <li><a href="/friend">通讯录</a></li>
+                <li><a href="/group">群组</a></li>
             </ul>
             <ul class="nav navbar-nav" style="float: right;">
                 <li><a href="register" target="_blank">注册</a></li>

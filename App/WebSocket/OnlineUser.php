@@ -8,7 +8,6 @@
 
 namespace App\WebSocket;
 
-
 use App\Traits\RedisTrait;
 use EasySwoole\Component\Pool\Exception\PoolEmpty;
 use EasySwoole\Component\Pool\Exception\PoolException;
@@ -73,16 +72,6 @@ class OnlineUser
     public function getUserByFd($fd)
     {
         return $this->getRedis()->hGet('userInfo', $fd);
-    }
-
-    /**
-     * @return mixed
-     * @throws PoolEmpty
-     * @throws PoolException
-     */
-    public function getOnlineUserInfo()
-    {
-        return $this->getRedis()->hGetAll('userInfo');
     }
 
     /**

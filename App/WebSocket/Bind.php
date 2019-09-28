@@ -8,7 +8,6 @@
 
 namespace App\WebSocket;
 
-
 use App\Traits\RedisTrait;
 use EasySwoole\Component\Pool\Exception\PoolEmpty;
 use EasySwoole\Component\Pool\Exception\PoolException;
@@ -52,41 +51,5 @@ class Bind
     public function deleteUserIdFd($userId)
     {
         return $this->getRedis()->hDel('userIdFd', $userId);
-    }
-
-    /**
-     * 设置fd关联的userId
-     * @param $fd
-     * @param $userId
-     * @throws PoolEmpty
-     * @throws PoolException
-     */
-    public function setFdUserId($fd, $userId)
-    {
-        $this->getRedis()->hSet('fdUserId', $fd, $userId);
-    }
-
-    /**
-     * 获取fd的关联的userId
-     * @param $fd
-     * @return mixed
-     * @throws PoolEmpty
-     * @throws PoolException
-     */
-    public function getFdUserId($fd)
-    {
-        return $this->getRedis()->hGet('fdUserId', $fd);
-    }
-
-    /**
-     * 删除fd关联的userId
-     * @param $fd
-     * @return mixed
-     * @throws PoolEmpty
-     * @throws PoolException
-     */
-    public function deleteFdUserId($fd)
-    {
-        return $this->getRedis()->hDel('fdUserId', $fd);
     }
 }
