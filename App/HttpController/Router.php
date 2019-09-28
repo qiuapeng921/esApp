@@ -21,9 +21,14 @@ class Router extends AbstractRouter
     public function initialize(RouteCollector $route)
     {
         $route->get('/', '/Index/index');
-        $route->get('/login', 'Index/login');
-        $route->get('/register', 'Index/register');
-        $route->get('/socket', '/Index/socket');
+        $route->get('/login', 'User/login');
+        $route->get('/register', 'User/register');
+        $route->get('/socket', '/User/socket');
+        $route->get('/friend', '/User/friend');
+        $route->get('/group', '/User/group');
+        $route->get('/groupMessage', '/User/');
+
+        $route->get('/message', '/User/message');
 
         $route->addGroup('/api/', function (RouteCollector $route) {
             (new ApiRouter())->setRouter($route);

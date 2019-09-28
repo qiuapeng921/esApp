@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df98088908a51617d22d410b8862d2ab",
+    "content-hash": "baea97606258ebc9d6d875f83ee1e358",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -793,6 +793,50 @@
             ],
             "description": "IDE help files for Swoole.",
             "time": "2019-09-06T15:31:56+00:00"
+        },
+        {
+            "name": "easyswoole/task",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/easy-swoole/task.git",
+                "reference": "6eed25cf6a8bd878c5c101c41bfd28d9a02f7926"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/easy-swoole/task/zipball/6eed25cf6a8bd878c5c101c41bfd28d9a02f7926",
+                "reference": "6eed25cf6a8bd878c5c101c41bfd28d9a02f7926",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "easyswoole/component": "^1.6",
+                "easyswoole/spl": "^1.2",
+                "ext-swoole": ">=4.4.0"
+            },
+            "require-dev": {
+                "easyswoole/swoole-ide-helper": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EasySwoole\\Task\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "A simple Queue implementation integrated into easySwoole",
+            "keywords": [
+                "easyswoole"
+            ],
+            "time": "2019-08-22T08:28:13+00:00"
         },
         {
             "name": "easyswoole/template",

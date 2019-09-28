@@ -65,7 +65,7 @@ class BaseModel
     public function __destruct()
     {
         if (Config::getInstance()->getConf('DEBUG')) {
-            Logger::getInstance()->console($this->mysql->getLastQuery(), 3, 'INFO');
+            Logger::getInstance()->console($this->mysql->getLastQuery(), 4, 'INFO');
         }
     }
 }

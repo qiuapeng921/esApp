@@ -13,7 +13,7 @@ use App\Process\HotReload;
 use App\Utility\Blade;
 use App\Utility\Pool\MysqlPool;
 use App\Utility\Pool\RedisPool;
-use App\WebSocket\SocketParser;
+use App\WebSocket\Parser\SocketParser;
 use App\WebSocket\WebSocketEvent;
 use Dotenv\Dotenv;
 use EasySwoole\Component\Di;
@@ -58,6 +58,7 @@ class EasySwooleEvent implements Event
     {
         $server = ServerManager::getInstance()->getSwooleServer();
         $server->addProcess((new HotReload('HotReload', ['disableInotify' => false]))->getProcess());
+
         // TODO 加载webSocket
         self::initWebSocket($register);
 
@@ -74,35 +75,23 @@ class EasySwooleEvent implements Event
     }
 
     /**
-     * webSocket
      * @param EventRegister $register
      * @throws \EasySwoole\Socket\Exception\Exception
      * @throws Exception
      */
     public static function initWebSocket(EventRegister $register)
     {
-        // TODO 设置解析器对象
-        // 创建一个 Dispatcher 配置
-        $conf = new \EasySwoole\Socket\Config();
-        // 设置 Dispatcher 为 WebSocket 模式
-        $conf->setType(\EasySwoole\Socket\Config::WEB_SOCKET);
-        // 设置解析器对象
-        $conf->setParser(new SocketParser());
-        // 创建 Dispatcher 对象 并注入 config 对象
-        $dispatch = new Dispatcher($conf);
+        // 注册服务事件
+        $register->add(EventRegister::onOpen, [WebSocketEvent::class, 'onOpen']);
+        $register->add(EventRegister::onClose, [WebSocketEvent::class, 'onClose']);
 
-        $websocketEvent = new WebSocketEvent();
-        // TODO 自定义连接
-        $register->set(EventRegister::onHandShake, function (\swoole_http_request $request, \swoole_http_response $response) use ($websocketEvent) {
-            $websocketEvent->onHandShake($request, $response);
-        });
-        // 给server 注册相关事件 在 WebSocket 模式下  on message 事件必须注册 并且交给 Dispatcher 对象处理
-        $register->set(EventRegister::onMessage, function (\swoole_websocket_server $server, \swoole_websocket_frame $frame) use ($dispatch, $websocketEvent) {
+        // 收到用户消息时处理
+        $conf = new \EasySwoole\Socket\Config;
+        $conf->setType($conf::WEB_SOCKET);
+        $conf->setParser(new SocketParser);
+        $dispatch = new Dispatcher($conf);
+        $register->set(EventRegister::onMessage, function (\swoole_server $server, \swoole_websocket_frame $frame) use ($dispatch) {
             $dispatch->dispatch($server, $frame->data, $frame);
-        });
-        // TODO 自定义关闭事件
-        $register->set(EventRegister::onClose, function (\swoole_server $server, int $fd, int $reactorId) use ($websocketEvent) {
-            $websocketEvent->onClose($server, $fd, $reactorId);
         });
     }
 

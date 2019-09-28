@@ -19,6 +19,18 @@ class UserModel extends BaseModel
     private static $table = 'user';
 
     /**
+     * @param $userId
+     * @param string $columns
+     * @return Mysqli|mixed|null
+     * @throws Throwable
+     */
+    public function getUserByUserId($userId, $columns = '*')
+    {
+        $result = $this->mysql()->where('user_id', $userId)->getOne(self::$table, $columns);
+        return $result;
+    }
+
+    /**
      * @param $account
      * @return Mysqli|mixed|null
      * @throws Throwable
@@ -26,6 +38,18 @@ class UserModel extends BaseModel
     public function getUserByAccount($account)
     {
         $result = $this->mysql()->where('account', $account)->getOne(self::$table);
+        return $result;
+    }
+
+    /**
+     * @param $userIds
+     * @param string $columns
+     * @return Mysqli|mixed
+     * @throws Throwable
+     */
+    public function getUserByUserIds($userIds, $columns = '*')
+    {
+        $result = $this->mysql()->whereIn('user_id', $userIds)->get(self::$table, null, $columns);
         return $result;
     }
 
