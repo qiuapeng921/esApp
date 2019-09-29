@@ -6,8 +6,9 @@
  * Time: 16:45
  */
 
-namespace App\HttpController;
+namespace App\HttpController\Home;
 
+use App\HttpController\Common;
 use App\Model\GroupModel;
 use App\Model\UserModel;
 use App\Repository\UserFriendRepository;
@@ -79,6 +80,5 @@ class User extends Common
     public function groupMessage()
     {
         $groupId = $this->request()->getQueryParam('group_id');
-
     }
 }

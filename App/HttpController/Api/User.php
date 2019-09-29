@@ -12,7 +12,6 @@ use App\HttpController\Common;
 use App\Model\GroupModel;
 use App\Model\UserModel;
 use App\Repository\UserFriendRepository;
-use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\Mysqli\Exceptions\ConnectFail;
 use EasySwoole\Mysqli\Exceptions\PrepareQueryFail;
 use Throwable;
@@ -76,11 +75,14 @@ class User extends Common
      */
     public function addFriend()
     {
-
+        echo 1111111111;
+        $fd = $this->request()->getSwooleRequest()->fd;
+        dd($fd);
     }
 
     public function delFriend()
     {
+
     }
 
     /**

@@ -1,7 +1,8 @@
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="{{asset("assets/js/cookie.js")}}"></script>
+<script src="https://lib.baomitu.com/jquery.cookieBar/0.0.3/jquery.cookieBar.js"></script>
 <script src="{{asset("assets/layer/layer.js")}}"></script>
+<script src="{{asset("assets/common.js")}}"></script>
 <script>
     let type = getQueryVariable("type");
     if (!type) {
@@ -11,7 +12,8 @@
     if (!id) {
         id = 0;
     }
-    let wsServer = 'ws://dev.phpswoole.com/hall?type=' + type + '&id=' + id;
+    let token = getCookie("token");
+    let wsServer = 'ws://127.0.0.1:9501/token=' + token;
     let websocket = new WebSocket(wsServer);
     websocket.onopen = function (evt) {
         addLine("初始化成功,请文明聊天,慢速开车");

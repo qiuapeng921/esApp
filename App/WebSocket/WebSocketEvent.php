@@ -37,7 +37,7 @@ class WebSocketEvent
         // 为用户分配身份并插入到用户表
         $fd = $request->fd;
         $params = $request->get;
-        if (isset($params['id']) && !empty($params['id'])) {
+        if (isset($params['token']) && !empty($params['token'])) {
             $user = (new UserModel())->getUserByUserId($params['id'], 'user_id,account');
             if ($user) {
                 // 将fd和用户id绑定

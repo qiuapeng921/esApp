@@ -51,7 +51,8 @@
 <script src="{{asset("assets/js/jquery.backstretch.min.js")}}"></script>
 <script src="{{asset("assets/js/scripts.js")}}"></script>
 <script src="{{asset("assets/layer/layer.js")}}"></script>
-<script src="{{asset("assets/js/cookie.js")}}"></script>
+<script src="https://lib.baomitu.com/jquery.cookieBar/0.0.3/jquery.cookieBar.js"></script>
+<script src="{{asset("assets/common.js")}}"></script>
 <script type="application/javascript">
     function login() {
         let account = $("#account").val();
@@ -70,13 +71,16 @@
             dataType: "json",
             data: {account: account, password: password},
             success: function (result) {
-                console.log(result);
                 if (result.code == 100) {
                     layer.alert(result.message, {icon: 2});
                     return false;
                 } else {
+                    let user = result.data.info;
+                    setCookie('user_id', user.user_id);
+                    setCookie('token', result.data.token);
+                    setCookie('nick_name', user.nick_name);
                     layer.alert("登陆成功", {icon: 1}, function () {
-                        window.location.href = '/socket?token=' + result.data.token;
+                        window.location.href = '/room';
                     });
                 }
             }
