@@ -164,7 +164,7 @@ CREATE TABLE `user_record`  (
   `user_id` int(10) UNSIGNED NOT NULL COMMENT '用户ID',
   `content` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '消息内容',
   `status` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态(1：正常)',
-  `create_at` int(10) NOT NULL DEFAULT CURRENT_TIMESTAMP(10) COMMENT '创建时间',
+  `create_at` int(10) NOT NULL DEFAULT 0 COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户聊天记录表' ROW_FORMAT = Dynamic;
 

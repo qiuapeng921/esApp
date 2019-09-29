@@ -93,7 +93,11 @@ class PushMessageTask extends AbstractAsyncTask
                     $server->push($fd, $this->responseJson($type, $data));
                 }
                 break;
-            case "onlineUser"|| "hallMessage":
+            case "hallMessage":
+                echo "大厅消息";
+                $server->push($fromFd, $this->responseJson($type, $data));
+                break;
+            case "onlineUser":
                 echo "推送在线用户";
                 foreach ($onlineUser as $fd) {
                     if (!$server->exist($fd)) {
