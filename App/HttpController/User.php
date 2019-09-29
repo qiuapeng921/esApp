@@ -45,6 +45,11 @@ class User extends Common
         return $this->view('user.friend', ['result' => $result['data']]);
     }
 
+    public function addFriend()
+    {
+        return $this->view('user.addFriend');
+    }
+
     /**
      * 聊天界面
      * @return string|null

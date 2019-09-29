@@ -13,12 +13,12 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
 {{--                <li><a href="/room">聊天</a></li>--}}
-{{--                <li><a href="/friend">通讯录</a></li>--}}
-{{--                <li><a href="/group">群组</a></li>--}}
+                <li><a href="/friend">通讯录</a></li>
+                <li><a href="/group">群组</a></li>
             </ul>
             <ul class="nav navbar-nav" style="float: right;">
-{{--                <li><a href="register" target="_blank">注册</a></li>--}}
-{{--                <li><a href="login" target="_blank">登陆</a></li>--}}
+{{--                <li><a href="/register" target="_blank">注册</a></li>--}}
+                <li><a href="/login" target="_blank">登陆</a></li>
             </ul>
         </div>
     </div>

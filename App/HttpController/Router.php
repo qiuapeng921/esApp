@@ -27,6 +27,7 @@ class Router extends AbstractRouter
         $route->get('/register', 'User/register');
 
         $route->get('/friend', '/User/friend');
+        $route->get('/addFriend', '/User/addFriend');
         $route->get('/message', '/User/message');
 
         $route->get('/group', '/User/group');

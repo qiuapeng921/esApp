@@ -32,6 +32,19 @@ class UserModel extends BaseModel
 
     /**
      * @param $account
+     * @return Mysqli|mixed
+     * @throws ConnectFail
+     * @throws PrepareQueryFail
+     * @throws Throwable
+     */
+    public function searchUserByAccount($account)
+    {
+        $result = $this->mysql()->whereLike('account', "%" . $account . "%")->get(self::$table);
+        return $result;
+    }
+
+    /**
+     * @param $account
      * @return Mysqli|mixed|null
      * @throws Throwable
      */

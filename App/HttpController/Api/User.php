@@ -8,12 +8,13 @@
 
 namespace App\HttpController\Api;
 
-
 use App\HttpController\Common;
 use App\Model\GroupModel;
-use App\Model\UserFriendModel;
 use App\Model\UserModel;
 use App\Repository\UserFriendRepository;
+use EasySwoole\EasySwoole\ServerManager;
+use EasySwoole\Mysqli\Exceptions\ConnectFail;
+use EasySwoole\Mysqli\Exceptions\PrepareQueryFail;
 use Throwable;
 
 class User extends Common
@@ -55,11 +56,31 @@ class User extends Common
     }
 
     /**
+     * @return bool
+     * @throws Throwable
+     * @throws ConnectFail
+     * @throws PrepareQueryFail
+     */
+    public function searchFriend()
+    {
+        $account = $this->request()->getParsedBody("account");
+        $result = (new UserModel())->searchUserByAccount($account);
+        if (!$result) {
+            return $this->responseJson($this->fail(null, '用戶不存在'));
+        }
+        return $this->responseJson($this->success($result));
+    }
+
+    /**
      * 添加好友
      */
     public function addFriend()
     {
 
+    }
+
+    public function delFriend()
+    {
     }
 
     /**
