@@ -6,17 +6,13 @@
  * Time: 17:58
  */
 
-namespace App\WebSocket;
+namespace App\WebSocket\Service;
 
-use App\Traits\RedisTrait;
 use EasySwoole\Component\Pool\Exception\PoolEmpty;
 use EasySwoole\Component\Pool\Exception\PoolException;
-use EasySwoole\Component\Singleton;
 
-class Bind
+class BindService extends BaseService
 {
-    use Singleton, RedisTrait;
-
     /**
      * 设置userId关联的fd
      * @param $userId

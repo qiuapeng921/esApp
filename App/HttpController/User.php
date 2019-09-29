@@ -9,6 +9,7 @@
 namespace App\HttpController;
 
 use App\Model\GroupModel;
+use App\Model\UserModel;
 use App\Repository\UserFriendRepository;
 use Throwable;
 
@@ -52,8 +53,8 @@ class User extends Common
     public function message()
     {
         $userId = $this->request()->getQueryParam('id');
-        $result = (new GroupModel())->getGroupByUserId($userId);
-        return $this->view('user.message', ['result' => $result]);
+        $result = (new UserModel())->getUserByUserId($userId, 'user_id,account,nick_name,image_url');
+        return $this->view('user.message', ['result' => $result ?? []]);
     }
 
     /**

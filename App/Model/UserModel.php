@@ -56,18 +56,11 @@ class UserModel extends BaseModel
     /**
      * @param $data
      * @return bool|int
+     * @throws Throwable
      */
     public function createAccount($data)
     {
-        try {
-            $result = $this->mysql()->insert(self::$table, $data);
-            return $result;
-        } catch (ConnectFail $e) {
-            dd($e->getMessage());
-        } catch (PrepareQueryFail $e) {
-            dd($e->getMessage());
-        } catch (Throwable $e) {
-            dd($e->getMessage());
-        }
+        $result = $this->mysql()->insert(self::$table, $data);
+        return $result;
     }
 }

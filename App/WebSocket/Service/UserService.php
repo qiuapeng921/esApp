@@ -2,21 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: qap
- * Date: 2019/9/28
- * Time: 11:29
+ * Date: 2019/9/29
+ * Time: 13:29
  */
 
-namespace App\WebSocket;
+namespace App\WebSocket\Service;
 
-use App\Traits\RedisTrait;
 use EasySwoole\Component\Pool\Exception\PoolEmpty;
 use EasySwoole\Component\Pool\Exception\PoolException;
-use EasySwoole\Component\Singleton;
 
-class OnlineUser
+class UserService extends BaseService
 {
-    use Singleton, RedisTrait;
-
     /**
      * 添加在线用户集合
      * @param $fd

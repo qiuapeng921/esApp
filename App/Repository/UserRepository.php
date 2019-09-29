@@ -8,7 +8,6 @@
 
 namespace App\Repository;
 
-
 use App\Model\UserModel;
 use App\Utility\JWT;
 use Throwable;
@@ -28,7 +27,6 @@ class UserRepository extends BaseRepository
         if (!$account) {
             return $this->fail(null, "账号不能为空");
         }
-        $aaa = makeHash($data['password']);
         $userInfo = (new UserModel())->getUserByAccount($account);
         if (!$userInfo) {
             return $this->fail(null, "账号不存在");

@@ -8,13 +8,17 @@
 
 namespace App\Task;
 
-
-use App\WebSocket\OnlineUser;
+use App\WebSocket\Service\UserService;
 use EasySwoole\Component\Pool\Exception\PoolEmpty;
 use EasySwoole\Component\Pool\Exception\PoolException;
 use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\EasySwoole\Swoole\Task\AbstractAsyncTask;
 
+/**
+ * 异步推送消息Task
+ * Class PushMessageTask
+ * @package App\Task
+ */
 class PushMessageTask extends AbstractAsyncTask
 {
     /**
@@ -29,32 +33,34 @@ class PushMessageTask extends AbstractAsyncTask
     protected function run($taskData, $taskId, $fromWorkerId, $flags = null)
     {
         $server = ServerManager::getInstance()->getSwooleServer();
-        $onlineUser = OnlineUser::getInstance()->getOnlineUserFd();
+        $userService = new UserService();
+        $onlineUser = $userService->getOnlineUserFd();
         $type = $taskData['type'];
         $data = $taskData['data'];
         $fromFd = $taskData['fromFd'] ?? 0;
         $toFd = $taskData['toFd'] ?? 0;
-        $user = OnlineUser::getInstance()->getUserByFd($fromFd);
+        $user = $userService->getUserByFd($fromFd);
         $user = json_decode($user, true);
         $message = ['nick_name' => $user['nick_name']];
         switch ($type) {
             case "send":
                 echo "私发";
-                $server->push($toFd, $this->response($type, $data, $message));
+                $server->push($toFd, $this->responseJson($type, $data, $message));
                 break;
             case "sendGroup":
                 echo "群组发送";
                 break;
             case "sendAll":
+                echo "全员推送";
                 foreach ($onlineUser as $fd) {
                     if (!$server->exist($fd)) {
                         // 删除在线用户fd
-                        OnlineUser::getInstance()->deleteOnlineUser($fd);
+                        $userService->deleteOnlineUser($fd);
                         // 删除fd关联的用户信息
-                        OnlineUser::getInstance()->deleteFdUserInfo($fd);
+                        $userService->deleteFdUserInfo($fd);
                         continue;
                     }
-                    $server->push($fd, $this->response($type, $data, $message));
+                    $server->push($fd, $this->responseJson($type, $data, $message));
                 }
                 break;
             case "join":
@@ -62,12 +68,16 @@ class PushMessageTask extends AbstractAsyncTask
                 foreach ($onlineUser as $fd) {
                     if (!$server->exist($fd)) {
                         // 删除在线用户fd
-                        OnlineUser::getInstance()->deleteOnlineUser($fd);
+                        $userService->deleteOnlineUser($fd);
                         // 删除fd关联的用户信息
-                        OnlineUser::getInstance()->deleteFdUserInfo($fd);
+                        $userService->deleteFdUserInfo($fd);
                         continue;
                     }
-                    $server->push($fd, $this->response($type, $data, $message));
+                    if ($fd == $fromFd) {
+                        $server->push($fromFd, $this->responseJson($type, $data));
+                    } else {
+                        $server->push($fd, $this->responseJson($type, $data, $message));
+                    }
                 }
                 break;
             case "leave":
@@ -75,12 +85,25 @@ class PushMessageTask extends AbstractAsyncTask
                 foreach ($onlineUser as $fd) {
                     if (!$server->exist($fd)) {
                         // 删除在线用户fd
-                        OnlineUser::getInstance()->deleteOnlineUser($fd);
+                        $userService->deleteOnlineUser($fd);
                         // 删除fd关联的用户信息
-                        OnlineUser::getInstance()->deleteFdUserInfo($fd);
+                        $userService->deleteFdUserInfo($fd);
                         continue;
                     }
-                    $server->push($fd, $this->response($type, $data, $message));
+                    $server->push($fd, $this->responseJson($type, $data));
+                }
+                break;
+            case "onlineUser"|| "hallMessage":
+                echo "推送在线用户";
+                foreach ($onlineUser as $fd) {
+                    if (!$server->exist($fd)) {
+                        // 删除在线用户fd
+                        $userService->deleteOnlineUser($fd);
+                        // 删除fd关联的用户信息
+                        $userService->deleteFdUserInfo($fd);
+                        continue;
+                    }
+                    $server->push($fd, $this->responseJson($type, $data));
                 }
                 break;
             default:
@@ -99,7 +122,14 @@ class PushMessageTask extends AbstractAsyncTask
         print_r('推送完成' . PHP_EOL);
     }
 
-    private function response($type, $data, $option = [])
+    /**
+     * 组装返回客户端
+     * @param $type
+     * @param $data
+     * @param array $option
+     * @return false|string
+     */
+    private function responseJson($type, $data, $option = [])
     {
         return json_encode(['type' => $type, 'data' => $data, 'option' => $option]);
     }

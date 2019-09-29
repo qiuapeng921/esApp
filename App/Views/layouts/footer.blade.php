@@ -11,20 +11,23 @@
     if (!id) {
         id = 0;
     }
-    let wsServer = 'ws://127.0.0.1:9501/hall?type=' + type + '&id=' + id;
+    let wsServer = 'ws://dev.phpswoole.com/hall?type=' + type + '&id=' + id;
     let websocket = new WebSocket(wsServer);
     websocket.onopen = function (evt) {
-        addLine("初始化成功，请文明聊天");
+        addLine("初始化成功,请文明聊天,慢速开车");
         heartCheck.reset().start();//心跳检测重置
+        getHallMessage();
+        getOnlineUser();
     };
     websocket.onclose = function (evt) {
         addLine("链接关闭");
+        getOnlineUser();
     };
     websocket.onmessage = function (evt) {
         heartCheck.reset().start();//拿到任何消息都说明当前连接是正常的
-        console.log(evt.data)
         if (isJSON(evt.data)) {
             let result = JSON.parse(evt.data);
+            console.log(evt.data)
             switch (result.type) {
                 // 私聊
                 case "send":
@@ -39,10 +42,28 @@
                     addLine(result.option.nick_name + "说:" + result.data);
                     break;
                 case "join":
-                    addLine("用户~" + result.option.nick_name + "加入聊天室");
+                    if (!result.option.nick_name) {
+                        addLine("欢迎您" + result.data + "加入聊天室");
+                    } else {
+                        addLine("用户:" + result.data + "加入聊天室");
+                    }
                     break;
                 case "leave":
-                    addLine(result.option.nick_name + "已退出聊天室");
+                    addLine(result.data + "已退出聊天室");
+                    break;
+                case "onlineUser":
+                    let onlineUsersList = $("#onlineUsers");
+                    onlineUsersList.html('');
+                    $.each(result.data, function (index, value) {
+                        let val = JSON.parse(value);
+                        onlineUsersList.append("<a class='list-group-item'>" + val.nick_name + "</a>");
+                    });
+                    break;
+                case "hallMessage":
+                    $.each(result.data, function (index, value) {
+                        let val = JSON.parse(value);
+                        addLine(val.nick_name + "说:" + val.content);
+                    });
                     break;
                 default:
                     break;
@@ -65,7 +86,7 @@
     function sendMessage(type) {
         let action = type;
         let content = $("#content");
-        if (!content) {
+        if (!content.val()) {
             layer.msg("消息不能为空");
             return false;
         }
@@ -126,5 +147,45 @@
             }
         }
         return false;
+    }
+
+    /**
+     *
+     * @returns {string}
+     * @constructor
+     */
+    function GetUrlRelativePath() {
+        let url = document.location.toString();
+        let arrUrl = url.split("//");
+
+        let start = arrUrl[1].indexOf("/");
+        let relUrl = arrUrl[1].substring(start);//stop省略，截取从start开始到结尾的所有字符
+
+        if (relUrl.indexOf("?") != -1) {
+            relUrl = relUrl.split("?")[0];
+        }
+        return relUrl;
+    }
+
+    function getHallMessage() {
+        let uri = GetUrlRelativePath();
+        if (uri === '/hall') {
+            websocket.send(JSON.stringify({
+                class: "Hall",
+                action: "getMessage",
+                content: ""
+            }));
+        }
+    }
+
+    function getOnlineUser() {
+        let uri = GetUrlRelativePath();
+        if (uri === '/hall') {
+            websocket.send(JSON.stringify({
+                class: "Hall",
+                action: "getOnlineUser",
+                content: ""
+            }));
+        }
     }
 </script>
