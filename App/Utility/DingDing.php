@@ -11,7 +11,7 @@
 
 namespace App\Utility;
 
-use Co\Channel;
+use Swoole\Coroutine\Channel;
 use EasySwoole\EasySwoole\Config;
 use EasySwoole\HttpClient\HttpClient;
 

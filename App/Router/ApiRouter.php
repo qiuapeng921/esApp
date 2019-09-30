@@ -31,7 +31,7 @@ class ApiRouter
         $route->post('user/searchFriend', 'Api/User/searchFriend');
         // 添加好友
         $route->post('user/addFriend', 'Api/User/addFriend');
-        // 添加好友
+        // 删除好友
         $route->post('user/delFriend', 'Api/User/delFriend');
         // 审核申请
         $route->post('user/reviewApplication', 'Api/User/reviewApplication');

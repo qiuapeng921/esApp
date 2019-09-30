@@ -8,7 +8,7 @@
 
 namespace App\Traits;
 
-use Co\Channel;
+use Swoole\Coroutine\Channel;
 use EasySwoole\HttpClient\HttpClient;
 
 /**
