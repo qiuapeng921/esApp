@@ -19,8 +19,8 @@ return [
             'enable_static_handler' => true,
         ],
     ],
-    'TEMP_DIR' => EASYSWOOLE_ROOT . '/Runtime/Temp',
-    'LOG_DIR' => EASYSWOOLE_ROOT . '/Runtime/Log',
+    'TEMP_DIR' => EASYSWOOLE_ROOT . '/Storage/Temp',
+    'LOG_DIR' => EASYSWOOLE_ROOT . '/Storage/Log',
     'CONSOLE' => [
         'ENABLE' => true,
         'LISTEN_ADDRESS' => '127.0.0.1',

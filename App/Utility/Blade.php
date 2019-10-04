@@ -22,8 +22,8 @@ class Blade implements RenderInterface
      */
     public function __construct()
     {
-        $viewsDir = EASYSWOOLE_ROOT . '/App/Views';
-        $cacheDir = EASYSWOOLE_ROOT . '/Runtime/Cache';
+        $viewsDir = EASYSWOOLE_ROOT . '/Resources/';
+        $cacheDir = EASYSWOOLE_ROOT . '/Storage/View';
         $this->engine = new BladeInstance($viewsDir, $cacheDir);
     }
 
