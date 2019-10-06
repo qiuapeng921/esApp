@@ -5,22 +5,22 @@ return [
     'MAIN_SERVER' => [
         'LISTEN_ADDRESS' => '0.0.0.0',
         'PORT' => 9501,
-        'SERVER_TYPE' => EASYSWOOLE_WEB_SERVER,
+        'SERVER_TYPE' => EASYSWOOLE_WEB_SOCKET_SERVER,
         'SOCK_TYPE' => SWOOLE_TCP,
         'RUN_MODEL' => SWOOLE_PROCESS,
         'SETTING' => [
-            'worker_num' => 4, //8,//运行的  worker进程数量
-            'max_request' => 1000, //5000,// worker 完成该数量的请求后将退出，防止内存溢出
-            'task_worker_num' => 4, //8,//运行的 task_worker 进程数量
-            'task_max_request' => 500, //1000,// task_worker 完成该数量的请求后将退出，防止内存溢出
+            'worker_num' => swoole_cpu_num(),//运行的  worker进程数量
+            'max_request' => 5000,// worker 完成该数量的请求后将退出，防止内存溢出
+            'task_worker_num' => swoole_cpu_num(),//运行的 task_worker 进程数量
+            'task_max_request' => 1000,// task_worker 完成该数量的请求后将退出，防止内存溢出
             'reload_async' => true,
             'task_enable_coroutine' => true,
-            'document_root' => EASYSWOOLE_ROOT . '/Public',  // 静态资源目录
+            'document_root' => EASYSWOOLE_ROOT . '/public',  // 静态资源目录
             'enable_static_handler' => true,
         ],
     ],
-    'TEMP_DIR' => EASYSWOOLE_ROOT . '/Storage/Temp',
-    'LOG_DIR' => EASYSWOOLE_ROOT . '/Storage/Log',
+    'TEMP_DIR' => EASYSWOOLE_ROOT . '/storage/temp',
+    'LOG_DIR' => EASYSWOOLE_ROOT . '/storage/log',
     'CONSOLE' => [
         'ENABLE' => true,
         'LISTEN_ADDRESS' => '127.0.0.1',
@@ -32,10 +32,5 @@ return [
         'PROCESS_NUM' => 0,
         'BACKLOG' => 256,
     ],
-    'DISPLAY_ERROR' => false,
-    'PHAR' => [
-        'EXCLUDE' => ['.idea', 'Log', 'Temp', 'easyswoole', 'easyswoole.install']
-    ],
-    'APP_HOST' => "https://api.phpswoole.com/",
-    'DEBUG' => false
+    'DISPLAY_ERROR' => false
 ];
