@@ -133,6 +133,7 @@ class EasySwooleEvent implements Event
         if (file_exists(EASYSWOOLE_ROOT . '/.env')) {
             Dotenv::create([EASYSWOOLE_ROOT])->load();
         }
+
         $conf = Config::getInstance();
         $conf->loadFile("App/Helper/functions.php");
         $data = require_once $ConfPath;

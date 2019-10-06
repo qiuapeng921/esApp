@@ -13,7 +13,7 @@ class MysqlPool extends AbstractPool
         //我们需要在该方法中创建连接
         //返回一个对象实例
         //必须要返回一个实现了AbstractPoolObject接口的对象
-        $conf   = \EasySwoole\EasySwoole\Config::getInstance()->getConf("MYSQL");
+        $conf   = config("MYSQL");
         $dbConf = new Config($conf);
         return new MysqlObject($dbConf);
     }
