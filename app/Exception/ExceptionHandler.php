@@ -36,7 +36,7 @@ class ExceptionHandler
         $msg .= "- 错误信息：**{$exception->getMessage()}**\n";
         dd($msg);
         $response->withStatus(Status::CODE_GATEWAY_TIMEOUT);
-        $response->withHeader('Content-type', 'application/json;charset=utf-8');
+        $response->withHeader('Content-type', 'text/html;charset=utf-8');
         $response->write('系统繁忙,请稍后再试');
     }
 }

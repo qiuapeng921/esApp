@@ -62,13 +62,6 @@ class EasySwooleEvent implements Event
         // TODO 加载webSocket
         self::initWebSocket($register);
 
-        // TODO mysql redis 预加载
-        $register->add($register::onWorkerStart, function (\swoole_server $server, int $workerId) {
-            if ($server->taskworker == false) {
-                PoolManager::getInstance()->getPool(MysqlPool::class)->preLoad(config('MYSQL.POOL_MAX_NUM'));
-                PoolManager::getInstance()->getPool(RedisPool::class)->preLoad(config('REDIS.POOL_MAX_NUM'));
-            }
-        });
         // TODO 模板
         Render::getInstance()->getConfig()->setRender(new Blade());
         Render::getInstance()->attachServer(ServerManager::getInstance()->getSwooleServer());
