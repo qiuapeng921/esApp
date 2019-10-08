@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'SERVER_NAME' => "essy-server",
+    'SERVER_NAME' => env('APP_NAME','esServer'),
     'MAIN_SERVER' => [
         'LISTEN_ADDRESS' => '0.0.0.0',
         'PORT' => 9501,
@@ -32,5 +32,6 @@ return [
         'PROCESS_NUM' => 0,
         'BACKLOG' => 256,
     ],
-    'DISPLAY_ERROR' => false
+    'DISPLAY_ERROR' => env('APP_DEBUG', false),
+    'APP_HOST' => env('APP_URL', '127.0.0.1')
 ];
