@@ -9,71 +9,77 @@
 namespace App\Model;
 
 
-use EasySwoole\Mysqli\Exceptions\ConnectFail;
-use EasySwoole\Mysqli\Exceptions\PrepareQueryFail;
-use EasySwoole\Mysqli\Mysqli;
 use Throwable;
 
 class UserModel extends BaseModel
 {
-    private static $table = 'user';
+    protected $tableName = "user";
 
     /**
      * @param $userId
      * @param string $columns
-     * @return Mysqli|mixed|null
+     * @return UserModel|array|bool|null
      * @throws Throwable
      */
     public function getUserByUserId($userId, $columns = '*')
     {
-        $result = $this->mysql()->where('user_id', $userId)->getOne(self::$table, $columns);
-        return $result;
+        $result = $this->where('id', $userId)->field($columns)->get();
+        if ($result){
+            return $result->toArray();
+        }
+        return null;
     }
 
     /**
      * @param $account
-     * @return Mysqli|mixed
-     * @throws ConnectFail
-     * @throws PrepareQueryFail
+     * @return UserModel|array|bool|null
      * @throws Throwable
      */
     public function searchUserByAccount($account)
     {
-        $result = $this->mysql()->whereLike('account', "%" . $account . "%")->get(self::$table);
-        return $result;
+        $result = $this->where('account', "%" . $account . "%")->get();
+        if ($result){
+            return $result->toArray();
+        }
+        return null;
     }
 
     /**
      * @param $account
-     * @return Mysqli|mixed|null
+     * @return UserModel|array|bool|null
      * @throws Throwable
      */
     public function getUserByAccount($account)
     {
-        $result = $this->mysql()->where('account', $account)->getOne(self::$table);
-        return $result;
+        $result = $this->where('account', $account)->get();
+        if ($result){
+            return $result->toArray();
+        }
+        return null;
     }
 
     /**
      * @param $userIds
      * @param string $columns
-     * @return Mysqli|mixed
+     * @return mixed
      * @throws Throwable
      */
     public function getUserByUserIds($userIds, $columns = '*')
     {
-        $result = $this->mysql()->whereIn('user_id', $userIds)->get(self::$table, null, $columns);
-        return $result;
+        $result = $this->where('user_id', "in", $userIds)->field($columns)->get();
+        if ($result){
+            return $result->toArray();
+        }
+        return null;
     }
 
     /**
      * @param $data
-     * @return bool|int
+     * @return array
      * @throws Throwable
      */
     public function createAccount($data)
     {
-        $result = $this->mysql()->insert(self::$table, $data);
-        return $result;
+        return $this->saveAll($data);
     }
 }

@@ -62,23 +62,4 @@ class User extends Common
         $result = (new UserModel())->getUserByUserId($userId, 'user_id,account,nick_name,image_url');
         return $this->view('user.message', ['result' => $result ?? []]);
     }
-
-    /**
-     * 我的分组
-     * @return string|null
-     * @throws Throwable
-     */
-    public function group()
-    {
-        $result = (new GroupModel())->getGroupByUserId(1);
-        return $this->view('user.group', ['result' => $result]);
-    }
-
-    /**
-     * 群组聊天
-     */
-    public function groupMessage()
-    {
-        $groupId = $this->request()->getQueryParam('group_id');
-    }
 }

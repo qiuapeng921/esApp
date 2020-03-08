@@ -5,7 +5,6 @@ namespace App\HttpController;
 use App\Constants\ErrorConst;
 use App\Traits\RedisTrait;
 use App\Traits\ResponseTrait;
-use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\Http\AbstractInterface\Controller;
 use EasySwoole\Http\Message\Status;
 use EasySwoole\Template\Render;
@@ -97,18 +96,6 @@ abstract class Common extends Controller
     }
 
     /**
-     * 获取客户端ip
-     * @return mixed
-     */
-    public function getIp()
-    {
-        $fd = $this->request()->getSwooleRequest()->fd;
-        $ip = ServerManager::getInstance()->getSwooleServer()->connection_info($fd);
-        return $ip['remote_ip'];
-    }
-
-    /**
-     * 空方法
      * @param string|null $action
      */
     protected function actionNotFound(?string $action)

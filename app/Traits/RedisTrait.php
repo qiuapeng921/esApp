@@ -11,21 +11,17 @@
 
 namespace App\Traits;
 
-use App\Utility\Pool\RedisObject;
-use App\Utility\Pool\RedisPool;
-use EasySwoole\Component\Pool\Exception\PoolEmpty;
-use EasySwoole\Component\Pool\Exception\PoolException;
+
+use EasySwoole\RedisPool\Redis;
 
 trait RedisTrait
 {
     /**
-     * 初始化
-     * @return mixed|null
-     * @throws PoolEmpty
-     * @throws PoolException
+     * @param string $name
+     * @return \EasySwoole\Redis\Redis|null
      */
-    protected function getRedis(): RedisObject
+    protected function getRedis($name = 'redis')
     {
-        return RedisPool::defer();
+        return Redis::defer($name);
     }
 }

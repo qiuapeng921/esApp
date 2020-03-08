@@ -3,36 +3,25 @@
 namespace App\Utility\Pool;
 
 
-use EasySwoole\Component\Pool\AbstractPool;
-use EasySwoole\EasySwoole\Config;
+use EasySwoole\Pool\Exception\Exception;
+use EasySwoole\Redis\Config\RedisConfig;
+use EasySwoole\RedisPool\Redis;
+use EasySwoole\RedisPool\RedisPoolException;
 
-/**
- * ClassDescription
- * @author qap <qiuapeng921@163.com>
- * @license http://wiki.com/index.php
- * @link http://127.0.0.1:8000/index
- * @Date 2019/4/19 18:19
- */
-class RedisPool extends AbstractPool
+class RedisPool
 {
     /**
-     *
-     * @return RedisObject|null
-     *
-     * @author qap <qiuapeng921@163.com>
-     * @date 2019/4/19 18:19
+     * @param RedisConfig $redisConfig
+     * @param string $name
+     * @throws Exception
+     * @throws RedisPoolException
      */
-    protected function createObject()
+    public static function createObject(RedisConfig $redisConfig, $name = 'redis')
     {
-        $redis = new RedisObject();
-        $conf  = config('REDIS');
-        if ($redis->connect($conf['host'],$conf['port'])) {
-            if (!empty($conf['auth'])) {
-                $redis->auth($conf['auth']);
-            }
-            return $redis;
-        } else {
-            return null;
-        }
+        $redisPoolConfig = Redis::getInstance()->register($name, new $redisConfig);
+        //配置连接池连接数
+        $redisPoolConfig->setMinObjectNum(5);
+        $redisPoolConfig->setMaxObjectNum(20);
     }
+
 }

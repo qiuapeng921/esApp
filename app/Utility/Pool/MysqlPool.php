@@ -2,19 +2,29 @@
 
 namespace App\Utility\Pool;
 
-use EasySwoole\Component\Pool\AbstractPool;
-use EasySwoole\Mysqli\Config;
 
-class MysqlPool extends AbstractPool
+use EasySwoole\ORM\Db\Config as ORMConfig;
+use EasySwoole\ORM\Db\Connection;
+use EasySwoole\ORM\DbManager;
+use EasySwoole\Pool\Exception\Exception;
+
+class MysqlPool
 {
-    protected function createObject()
+    /**
+     * @throws Exception
+     */
+    public static function createObject()
     {
-        //当连接池第一次获取连接时,会调用该方法
-        //我们需要在该方法中创建连接
-        //返回一个对象实例
-        //必须要返回一个实现了AbstractPoolObject接口的对象
-        $conf   = config("MYSQL");
-        $dbConf = new Config($conf);
-        return new MysqlObject($dbConf);
+        $config = new ORMConfig();
+        $config->setDatabase('chat');
+        $config->setUser('root');
+        $config->setPassword('');
+        $config->setHost('127.0.0.1');
+        $config->setGetObjectTimeout(3.0); //设置获取连接池对象超时时间
+        $config->setIntervalCheckTime(30*1000); //设置检测连接存活执行回收和创建的周期
+        $config->setMaxIdleTime(15); //连接池对象最大闲置时间(秒)
+        $config->setMaxObjectNum(20); //设置最大连接池存在连接对象数量
+        $config->setMinObjectNum(5); //设置最小连接池存在连接对象数量
+        DbManager::getInstance()->addConnection(new Connection($config));
     }
 }

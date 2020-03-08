@@ -11,12 +11,15 @@ return [
         'SETTING' => [
             'worker_num' => swoole_cpu_num(),//运行的  worker进程数量
             'max_request' => 5000,// worker 完成该数量的请求后将退出，防止内存溢出
-            'task_worker_num' => swoole_cpu_num(),//运行的 task_worker 进程数量
             'task_max_request' => 1000,// task_worker 完成该数量的请求后将退出，防止内存溢出
             'reload_async' => true,
-            'task_enable_coroutine' => true,
             'document_root' => EASYSWOOLE_ROOT . '/public',  // 静态资源目录
             'enable_static_handler' => true,
+        ],
+        'TASK' => [
+            'workerNum' => swoole_cpu_num(),//运行的 task_worker 进程数量
+            'maxRunningNum' => 128,
+            'timeout' => 15
         ],
     ],
     'TEMP_DIR' => EASYSWOOLE_ROOT . '/storage/temp',

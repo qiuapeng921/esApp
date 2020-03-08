@@ -6,6 +6,7 @@ use EasySwoole\Component\Di;
 use EasySwoole\EasySwoole\Config;
 use EasySwoole\EasySwoole\Logger;
 use EasySwoole\Http\Message\Request;
+use EasySwoole\Utility\Hash;
 
 if (!function_exists('dd')) {
     /**
@@ -71,7 +72,7 @@ if (!function_exists('makeHash')) {
      */
     function makeHash($string)
     {
-        return \EasySwoole\Utility\Hash::makePasswordHash($string);
+        return Hash::makePasswordHash($string);
     }
 }
 
@@ -85,7 +86,7 @@ if (!function_exists('validateHash')) {
      */
     function validateHash($string, $hashString)
     {
-        return \EasySwoole\Utility\Hash::validatePasswordHash($string, $hashString);
+        return Hash::validatePasswordHash($string, $hashString);
     }
 }
 
