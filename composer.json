@@ -11,7 +11,7 @@
     "duncan3dc/blade": "^4.5",
     "easyswoole/socket": "^1.1",
     "vlucas/phpdotenv": "^3.6",
-    "firebase/php-jwt": "^5.0",
+    "firebase/php-jwt": "^6.0",
     "easyswoole/task": "^1.0",
     "easyswoole/orm": "^1.4",
     "easyswoole/redis-pool": "^2.0"
